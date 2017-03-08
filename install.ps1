@@ -1,8 +1,6 @@
 $ScriptPath = $MyInvocation.MyCommand.Path
 $ScriptDirectory = Split-Path $ScriptPath -Parent
 
-$mingw = "C:\mingw32\bin\mingw32-make.exe"
-$cmake = "C:\cmake\bin\cmake.exe"
 
 $ZlibDir = Join-Path $ScriptDirectory "zlib"
 if (-Not (Test-Path $ZlibDir)) {
@@ -27,9 +25,9 @@ foreach ($name in @("bin", "lib", "include")) {
 $LibDir = Join-Path $LocalDir "lib"
 $IncludeDir = Join-Path $LocalDir "include"
 Push-Location $ZlibDir
-    $mingw -f win32/Makefile.gcc
+    C:\mingw32\bin\mingw32-make.exe -f win32/Makefile.gcc
     if ($LASTEXITCODE -ne 0) {
-        Write-Error "non-zero exit code ($mingw -f win32/Makefile.gcc): ${LASTEXITCODE}"
+        Write-Error "non-zero exit code (C:\mingw32\bin\mingw32-make.exe -f win32/Makefile.gcc): ${LASTEXITCODE}"
     }
     # Copy header files to include dir
     foreach ($name in @("zconf.h", "zlib.h")) {
@@ -51,7 +49,7 @@ $BuildDir = Join-Path $ScriptDirectory "build-libarchive"
 New-Item -Path $BuildDir -ItemType directory
 Push-Location $BuildDir
     # Configure
-    $cmake -G "MinGW Makefiles" -DENABLE_CAT:BOOL="0" -DENABLE_BZip2:BOOL="0" -DENABLE_CNG:BOOL="0" -DENABLE_CPIO:BOOL="0" `
+    C:\cmake\bin\cmake.exe -G "MinGW Makefiles" -DENABLE_CAT:BOOL="0" -DENABLE_BZip2:BOOL="0" -DENABLE_CNG:BOOL="0" -DENABLE_CPIO:BOOL="0" `
         -DZLIB_INCLUDE_DIR:PATH="$IncludeDir" -DZLIB_LIBRARY_RELEASE:FILEPATH="$LibDir/libz.a" "$LibarchiveDir"
     if ($LASTEXITCODE -ne 0) {
         Write-Error "cmake: non-zero exit code: ${LASTEXITCODE}"
@@ -59,14 +57,14 @@ Push-Location $BuildDir
     }
 
     # Build
-    $mingw -j 4
+    C:\mingw32\bin\mingw32-make.exe -j 4
     if ($LASTEXITCODE -ne 0) {
-        Write-Error "$mingw: non-zero exit code: ${LASTEXITCODE}"
+        Write-Error "C:\mingw32\bin\mingw32-make.exe: non-zero exit code: ${LASTEXITCODE}"
         Exit $LASTEXITCODE
     }
 
     # Test
-    $mingw -j 4 test | Tee-Object -FilePath $LogFile
+    C:\mingw32\bin\mingw32-make.exe -j 4 test | Tee-Object -FilePath $LogFile
 Pop-Location
 
 # Expected failures
