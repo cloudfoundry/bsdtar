@@ -1,0 +1,8 @@
+[submodule "libarchive"]
+	path = libarchive
+	url = https://github.com/libarchive/libarchive.git
+	branch = v3.3.1
+[submodule "zlib"]
+	path = zlib
+	url = https://github.com/madler/zlib.git
+	branch = v1.2.11
