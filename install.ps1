@@ -96,16 +96,9 @@ foreach ($h in $expErrors.GetEnumerator()) {
     }
 }
 
-# cmake.exe -G "MinGW Makefiles" -DENABLE_CAT:BOOL="0" -DZLIB_INCLUDE_DIR:PATH="C:/Users/Administrator/Desktop/Build/local/include" -DENABLE_BZip2:BOOL="0" -DZLIB_LIBRARY_RELEASE:FILEPATH="C:/Users/Administrator/Desktop/Build/local/lib/libz.a" -DENABLE_CNG:BOOL="0" -DENABLE_CPIO:BOOL="0" C:/Users/Administrator/Desktop/Build/libarchive
-#
-# From the GUI:
-# -DENABLE_CAT:BOOL="0" -DZLIB_INCLUDE_DIR:PATH="C:/Users/Administrator/Desktop/Build/local/include" -DENABLE_BZip2:BOOL="0" -DZLIB_LIBRARY_RELEASE:FILEPATH="C:/Users/Administrator/Desktop/Build/local/lib/libz.a" -DENABLE_CNG:BOOL="0" -DENABLE_CPIO:BOOL="0"
+$bsdTar = [System.IO.Path]::Combine($BuildDir, "bin", "bsdtar.exe")
+$tarball = ("tar-{0}.exe" -f ([int][double]::Parse((Get-Date -UFormat %s))))
+$outputTar = [System.IO.Path]::Combine("tar-output", $tarball)
 
-# ENABLE_CAT:BOOL=0
-# ZLIB_INCLUDE_DIR:PATH=C:/Users/Administrator/workspace/tar/local/include
-# ENABLE_BZip2:BOOL=0
-# ZLIB_LIBRARY_RELEASE:FILEPATH=C:/Users/Administrator/workspace/tar/local/lib/libz.a
-# ENABLE_CNG:BOOL=0
-# ENABLE_CPIO:BOOL=0
-
-# C:\Users\Administrator\Desktop\Build\local\include
+# Capture the output in Concourse
+Move-Item $bsdTar $outputTar
