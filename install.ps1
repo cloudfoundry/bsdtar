@@ -72,9 +72,8 @@ Pop-Location
 
 # Expected failures
 [hashtable]$expErrors = [ordered]@{
-    "*99% tests passed, 5 tests failed out of 550*" = $false;
+    "*99% tests passed, 4 tests failed out of 550*" = $false;
     "*137 - libarchive_test_entry (Failed)*" = $false;
-    "*308 - libarchive_test_read_format_warc (Failed)*" = $false;
     "*371 - libarchive_test_sparse_basic (Failed)*" = $false;
     "*372 - libarchive_test_fully_sparse_files (Failed)*" = $false;
     "*385 - libarchive_test_warn_missing_hardlink_target (Failed)*" = $false
@@ -91,8 +90,8 @@ foreach ($line in Get-Content -Path $LogFile) {
 }
 
 foreach ($h in $expErrors.GetEnumerator()) {
-    if ($h.Value -ne $false) {
-        $err = ("Tests failed: {0}" -f $expErrors)
+    if ($h.Value -eq $false) {
+        $err = ("Tests failed: {0}" -f $h.Key)
         Write-Error $err
     }
 }
