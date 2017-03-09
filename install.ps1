@@ -101,5 +101,4 @@ $tarball = ("tar-{0}.exe" -f ([int][double]::Parse((Get-Date -UFormat %s))))
 $outputTar = [System.IO.Path]::Combine("tar-output", $tarball)
 
 # Capture the output in Concourse
-New-Item -type Directory "tar-output" -Force
 Move-Item $bsdTar $outputTar
