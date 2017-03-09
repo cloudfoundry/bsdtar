@@ -1,3 +1,6 @@
+$ErrorActionPreference = "Stop";
+trap { $host.SetShouldExit(1) }
+
 $ScriptPath = $MyInvocation.MyCommand.Path
 $ScriptDirectory = Split-Path $ScriptPath -Parent
 
@@ -88,8 +91,9 @@ foreach ($line in Get-Content -Path $LogFile) {
 }
 
 foreach ($h in $expErrors.GetEnumerator()) {
-    if ($h.Value -ne $true) {
-        Write-Error "Tests failed: {0}" -f $expErrors
+    if ($h.Value -ne $false) {
+        $err = ("Tests failed: {0}" -f $expErrors)
+        Write-Error $err
     }
 }
 
