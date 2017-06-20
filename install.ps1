@@ -1,4 +1,4 @@
-$ErrorActionPreference = "Stop";
+﻿$ErrorActionPreference = "Stop";
 trap { $host.SetShouldExit(1) }
 
 $ScriptPath = $MyInvocation.MyCommand.Path
@@ -28,7 +28,7 @@ foreach ($name in @("bin", "lib", "include")) {
 $LibDir = Join-Path $LocalDir "lib"
 $IncludeDir = Join-Path $LocalDir "include"
 Push-Location $ZlibDir
-    mingw32-make.exe -f win32/Makefile.gcc
+    C:\\var\\vcap\\packages\\mingw-32\\bin\\mingw32-make.exe -f win32/Makefile.gcc
     if ($LASTEXITCODE -ne 0) {
         Write-Error "non-zero exit code (mingw32-make.exe -f win32/Makefile.gcc): ${LASTEXITCODE}"
     }
@@ -60,14 +60,14 @@ Push-Location $BuildDir
     }
 
     # Build
-    mingw32-make.exe -j 4
+    C:\\var\\vcap\\packages\\mingw-32\\bin\\mingw32-make.exe -j 4
     if ($LASTEXITCODE -ne 0) {
         Write-Error "mingw32-make.exe: non-zero exit code: ${LASTEXITCODE}"
         Exit $LASTEXITCODE
     }
 
     # Test
-    mingw32-make.exe -j 4 test | Tee-Object -FilePath $LogFile
+    C:\\var\\vcap\\packages\\mingw-32\\bin\\mingw32-make.exe -j 4 test | Tee-Object -FilePath $LogFile
 Pop-Location
 
 # Expected failures
