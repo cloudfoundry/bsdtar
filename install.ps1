@@ -52,7 +52,7 @@ $BuildDir = Join-Path $ScriptDirectory "build-libarchive"
 New-Item -Path $BuildDir -ItemType directory
 Push-Location $BuildDir
     # Configure
-    cmake.exe -G "MinGW Makefiles" -DENABLE_CAT:BOOL="0" -DENABLE_BZip2:BOOL="0" -DENABLE_CNG:BOOL="0" -DENABLE_CPIO:BOOL="0" `
+    C:\var\vcap\packages\cmake\bin\cmake.exe -G "MinGW Makefiles" -DENABLE_CAT:BOOL="0" -DENABLE_BZip2:BOOL="0" -DENABLE_CNG:BOOL="0" -DENABLE_CPIO:BOOL="0" `
         -DZLIB_INCLUDE_DIR:PATH="$IncludeDir" -DZLIB_LIBRARY_RELEASE:FILEPATH="$LibDir/libz.a" "$LibarchiveDir"
     if ($LASTEXITCODE -ne 0) {
         Write-Error "cmake: non-zero exit code: ${LASTEXITCODE}"
@@ -72,15 +72,14 @@ Pop-Location
 
 # Expected failures
 [hashtable]$expErrors = [ordered]@{
-    "*99% tests passed, 4 tests failed out of 550*" = $false;
-    "*137 - libarchive_test_entry (Failed)*" = $false;
-    "*371 - libarchive_test_sparse_basic (Failed)*" = $false;
-    "*372 - libarchive_test_fully_sparse_files (Failed)*" = $false;
-    "*385 - libarchive_test_warn_missing_hardlink_target (Failed)*" = $false
+    "*99% tests passed, 4 tests failed out of*" = $false;
+    "*libarchive_test_entry (Failed)*" = $false;
+    "*libarchive_test_sparse_basic (Failed)*" = $false;
+    "*libarchive_test_fully_sparse_files (Failed)*" = $false;
+    "*libarchive_test_warn_missing_hardlink_target (Failed)*" = $false
 }
 
 foreach ($line in Get-Content -Path $LogFile) {
-    # EFFICIENCY!!!
     foreach ($h in $expErrors.GetEnumerator()) {
         if ($line -like $h.Key) {
             $expErrors[$h.Key] = $true
@@ -102,3 +101,5 @@ $outputTar = [System.IO.Path]::Combine("tar-output", $tarball)
 
 # Capture the output in Concourse
 Move-Item $bsdTar $outputTar
+
+Exit 0
