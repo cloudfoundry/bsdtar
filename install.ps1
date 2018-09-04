@@ -72,11 +72,7 @@ Pop-Location
 
 # Expected failures
 [hashtable]$expErrors = [ordered]@{
-    "*99% tests passed, 4 tests failed out of*" = $false;
-    "*libarchive_test_entry (Failed)*" = $false;
-    "*libarchive_test_sparse_basic (Failed)*" = $false;
-    "*libarchive_test_fully_sparse_files (Failed)*" = $false;
-    "*libarchive_test_warn_missing_hardlink_target (Failed)*" = $false
+    "*libarchive_test_entry (Failed)*" = $false
 }
 
 foreach ($line in Get-Content -Path $LogFile) {
