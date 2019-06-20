@@ -70,26 +70,27 @@ Push-Location $BuildDir
     C:\\var\\vcap\\packages\\mingw32\\mingw32\\bin\\mingw32-make.exe -j 4 test | Tee-Object -FilePath $LogFile
 Pop-Location
 
+# We're able to pass every test. So we don't need this anymore
 # Expected failures
-[hashtable]$expErrors = [ordered]@{
-    "*libarchive_test_entry (Failed)*" = $false
-}
-
-foreach ($line in Get-Content -Path $LogFile) {
-    foreach ($h in $expErrors.GetEnumerator()) {
-        if ($line -like $h.Key) {
-            $expErrors[$h.Key] = $true
-            break
-        }
-    }
-}
-
-foreach ($h in $expErrors.GetEnumerator()) {
-    if ($h.Value -eq $false) {
-        $err = ("Tests failed: {0}" -f $h.Key)
-        Write-Error $err
-    }
-}
+# [hashtable]$expErrors = [ordered]@{
+#     "*libarchive_test_entry (Failed)*" = $false
+# }
+#
+# foreach ($line in Get-Content -Path $LogFile) {
+#     foreach ($h in $expErrors.GetEnumerator()) {
+#         if ($line -like $h.Key) {
+#             $expErrors[$h.Key] = $true
+#             break
+#         }
+#     }
+# }
+#
+# foreach ($h in $expErrors.GetEnumerator()) {
+#     if ($h.Value -eq $false) {
+#         $err = ("Tests failed: {0}" -f $h.Key)
+#         Write-Error $err
+#     }
+# }
 
 $bsdTar = [System.IO.Path]::Combine($BuildDir, "bin", "bsdtar.exe")
 $tarball = ("tar-{0}.exe" -f ([int][double]::Parse((Get-Date -UFormat %s))))
