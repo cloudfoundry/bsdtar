@@ -28,9 +28,9 @@ foreach ($name in @("bin", "lib", "include")) {
 $LibDir = Join-Path $LocalDir "lib"
 $IncludeDir = Join-Path $LocalDir "include"
 Push-Location $ZlibDir
-    C:\\var\\vcap\\packages\\mingw32\\mingw32\\bin\\mingw32-make.exe -f win32/Makefile.gcc
+    C:\\var\\vcap\\packages\\mingw64\\mingw64\\bin\\mingw64-make.exe -f win32/Makefile.gcc
     if ($LASTEXITCODE -ne 0) {
-        Write-Error "non-zero exit code (mingw32-make.exe -f win32/Makefile.gcc): ${LASTEXITCODE}"
+        Write-Error "non-zero exit code (mingw64-make.exe -f win32/Makefile.gcc): ${LASTEXITCODE}"
     }
     # Copy header files to include dir
     foreach ($name in @("zconf.h", "zlib.h")) {
@@ -60,14 +60,14 @@ Push-Location $BuildDir
     }
 
     # Build
-    C:\\var\\vcap\\packages\\mingw32\\mingw32\\bin\\mingw32-make.exe -j 4
+    C:\\var\\vcap\\packages\\mingw64\\mingw64\\bin\\mingw64-make.exe -j 4
     if ($LASTEXITCODE -ne 0) {
-        Write-Error "mingw32-make.exe: non-zero exit code: ${LASTEXITCODE}"
+        Write-Error "mingw64-make.exe: non-zero exit code: ${LASTEXITCODE}"
         Exit $LASTEXITCODE
     }
 
     # Test
-    C:\\var\\vcap\\packages\\mingw32\\mingw32\\bin\\mingw32-make.exe -j 4 test | Tee-Object -FilePath $LogFile
+    C:\\var\\vcap\\packages\\mingw64\\mingw64\\bin\\mingw64-make.exe -j 4 test | Tee-Object -FilePath $LogFile
 Pop-Location
 
 # We're able to pass every test. So we don't need this anymore
